@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import GoogleAPIClient
 
 class EmailListCell: UITableViewCell {
 
@@ -27,6 +28,32 @@ class EmailListCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func prepareCell(withMsg messageObj:GTLGmailMessage)
+    {
+        let payLoad:GTLGmailMessagePart = messageObj.payload;
+        let headers:[GTLGmailMessagePartHeader] = payLoad.headers as! [GTLGmailMessagePartHeader];
+        
+        for header in headers
+        {
+            if( header.name == "From" )
+            {
+                let rangeObj = header.value.rangeOfString("<");
+                
+                lblSender.text = header.value.substringToIndex((rangeObj?.startIndex)!)
+            }
+            if(header.name == "Subject")
+            {
+                lblSubject.text = header.value;
+            }
+            if(header.name == "Date")
+            {
+                lblTime.text = Utils.getDateStr(header.value);
+            }
+        }
+        
+        viewOfCircle.layer.cornerRadius = 10.0;
     }
 
 }

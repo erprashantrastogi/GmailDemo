@@ -22,4 +22,24 @@ class Utils: NSObject {
         alert.show()
     }
     
+    class func getDateStr(gmailDate:NSString) -> String
+    {
+        let newDate = gmailDate.substringToIndex(25);
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss"
+        let dateObj =  dateFormatter.dateFromString( newDate ) ;
+        
+        var newDateStr = "";
+        if( dateObj != nil)
+        {
+            dateFormatter.dateFormat = "hh:mm a"
+            dateFormatter.AMSymbol = "AM"
+            dateFormatter.PMSymbol = "PM"
+            
+            newDateStr = dateFormatter.stringFromDate(dateObj!);
+        }
+        
+        return newDateStr;
+    }
 }

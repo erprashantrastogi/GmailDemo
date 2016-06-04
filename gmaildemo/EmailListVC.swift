@@ -122,37 +122,8 @@ class EmailListVC: UITableViewController
 
         // Configure the cell...
         let msg:GTLGmailMessage = self.arrayOfMessage[indexPath.row];
-        let payLoad:GTLGmailMessagePart = msg.payload;
-        let headers:[GTLGmailMessagePartHeader] = payLoad.headers as! [GTLGmailMessagePartHeader];
+        emailListCell.prepareCell(withMsg: msg);
         
-        for header in headers
-        {
-            if( header.name == "From" )
-            {
-                let rangeObj = header.value.rangeOfString("<");
-                
-                emailListCell.lblSender.text = header.value.substringToIndex((rangeObj?.startIndex)!)
-            }
-            if(header.name == "Subject")
-            {
-                emailListCell.lblSubject.text = header.value;
-            }
-            if(header.name == "Date")
-            {
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"
-                let dateObj =  dateFormatter.dateFromString( header.value ) ;
-                
-                dateFormatter.dateFormat = "hh:mm a"
-                dateFormatter.AMSymbol = "AM"
-                dateFormatter.PMSymbol = "PM"
-                
-                emailListCell.lblTime.text = dateFormatter.stringFromDate(dateObj!);
-            }
-        }
-        
-        emailListCell.viewOfCircle.layer.cornerRadius = 10.0;
-
         return emailListCell
     }
     
