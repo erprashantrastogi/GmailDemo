@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="2BL-Zw-uk4">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Email Accounts-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="BYZ-38-t0r" customClass="HomeVC" customModule="gmaildemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d2o-f8-EGf">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="FUp-fb-oST"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="uDD-MC-Pe8"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="d2o-f8-EGf" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="2LP-wa-O5p"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="d2o-f8-EGf" secondAttribute="bottom" id="IFA-Rq-FuL"/>
+                            <constraint firstItem="d2o-f8-EGf" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Y0z-7Q-bOB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="d2o-f8-EGf" secondAttribute="trailing" constant="-20" id="jk4-G7-bfX"/>
+                            <constraint firstAttribute="trailing" secondItem="d2o-f8-EGf" secondAttribute="trailing" id="qOS-Mm-7kg"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Email Accounts" id="RI6-F8-Dji">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="HtT-ue-QR0">
+                            <connections>
+                                <action selector="onTapAddEmail:" destination="BYZ-38-t0r" id="FPN-NW-Vwj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tblUserAccounts" destination="d2o-f8-EGf" id="9QX-0w-dvJ"/>
+                        <segue destination="CAp-xx-BmE" kind="show" identifier="MoveToLabelsVC" id="NXi-Ml-2WU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2893" y="-499"/>
+        </scene>
+        <!--Account LabelVC-->
+        <scene sceneID="8jE-XQ-gi5">
+            <objects>
+                <tableViewController id="CAp-xx-BmE" customClass="AccountLabelVC" customModule="gmaildemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="MHK-ix-S3D">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="CAp-xx-BmE" id="ffg-tr-TLU"/>
+                            <outlet property="delegate" destination="CAp-xx-BmE" id="h4y-8q-Nhb"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1NO-C9-C1v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2022" y="-500"/>
+        </scene>
+        <!--Email ListVC-->
+        <scene sceneID="wC4-8q-N5r">
+            <objects>
+                <tableViewController storyboardIdentifier="EmailListVC" id="Yuw-7y-Ngb" customClass="EmailListVC" customModule="gmaildemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="150" sectionHeaderHeight="28" sectionFooterHeight="28" id="MEH-W4-0Jf">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmailListCell" id="h0c-kH-613" customClass="EmailListCell" customModule="gmaildemo" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="600" height="150"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h0c-kH-613" id="RXs-49-fTl">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="149"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATh-Tq-AmJ">
+                                            <rect key="frame" x="8" y="8" width="20" height="20"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="3qD-xy-Cgq"/>
+                                                <constraint firstAttribute="width" constant="20" id="rex-dX-8HN"/>
+                                            </constraints>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prashant Rastogi" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zDu-8g-1jk">
+                                            <rect key="frame" x="36" y="8" width="474" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="eWG-0M-xjh"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Late on Today for Office" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NF1-XZ-2Fr">
+                                            <rect key="frame" x="36" y="32" width="556" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="22" id="pyE-9Q-Zp8"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Late on Today for Office \n sdhfgj" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SjJ-UK-lv6">
+                                            <rect key="frame" x="36" y="60" width="556" height="81"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="9:15 AM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MZC-xY-Bib">
+                                            <rect key="frame" x="515" y="8" width="47" height="15"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="47" id="L1N-XL-tBx"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wav-Ig-X6f">
+                                            <rect key="frame" x="570" y="8" width="15" height="15"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="15" id="IqN-w2-kCn"/>
+                                                <constraint firstAttribute="width" constant="15" id="vqB-gE-NZj"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="wav-Ig-X6f" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="2G2-9i-hfn"/>
+                                        <constraint firstItem="MZC-xY-Bib" firstAttribute="leading" secondItem="zDu-8g-1jk" secondAttribute="trailing" constant="5" id="2vj-E9-0Oq"/>
+                                        <constraint firstItem="ATh-Tq-AmJ" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="59U-ed-TXs"/>
+                                        <constraint firstItem="NF1-XZ-2Fr" firstAttribute="leading" secondItem="zDu-8g-1jk" secondAttribute="leading" id="5En-P2-NXs"/>
+                                        <constraint firstItem="ATh-Tq-AmJ" firstAttribute="leading" secondItem="RXs-49-fTl" secondAttribute="leading" constant="8" id="Dsw-Ue-nhX"/>
+                                        <constraint firstAttribute="trailing" secondItem="wav-Ig-X6f" secondAttribute="trailing" constant="15" id="Ecl-eN-3YW"/>
+                                        <constraint firstItem="SjJ-UK-lv6" firstAttribute="top" secondItem="NF1-XZ-2Fr" secondAttribute="bottom" constant="6" id="FQ9-ir-2KY"/>
+                                        <constraint firstAttribute="trailing" secondItem="SjJ-UK-lv6" secondAttribute="trailing" constant="8" id="IXU-YB-vMs"/>
+                                        <constraint firstItem="zDu-8g-1jk" firstAttribute="leading" secondItem="ATh-Tq-AmJ" secondAttribute="trailing" constant="8" id="OGm-rn-l1G"/>
+                                        <constraint firstItem="wav-Ig-X6f" firstAttribute="leading" secondItem="MZC-xY-Bib" secondAttribute="trailing" constant="8" id="OLk-M7-B6H"/>
+                                        <constraint firstItem="NF1-XZ-2Fr" firstAttribute="top" secondItem="zDu-8g-1jk" secondAttribute="bottom" constant="3" id="Q8g-ow-DrZ"/>
+                                        <constraint firstAttribute="trailing" secondItem="NF1-XZ-2Fr" secondAttribute="trailing" constant="8" id="Wjf-Ya-gLz"/>
+                                        <constraint firstItem="MZC-xY-Bib" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="nca-Re-hbq"/>
+                                        <constraint firstItem="zDu-8g-1jk" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="pjQ-fl-b8c"/>
+                                        <constraint firstAttribute="bottom" secondItem="SjJ-UK-lv6" secondAttribute="bottom" constant="8" id="wcD-UE-K9n"/>
+                                        <constraint firstItem="SjJ-UK-lv6" firstAttribute="leading" secondItem="zDu-8g-1jk" secondAttribute="leading" id="xyh-0c-8cm"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="lblMsgDesc" destination="SjJ-UK-lv6" id="2UU-go-4d3"/>
+                                    <outlet property="lblSender" destination="zDu-8g-1jk" id="Qvw-vF-soj"/>
+                                    <outlet property="lblSubject" destination="NF1-XZ-2Fr" id="IUl-TY-nFC"/>
+                                    <outlet property="lblTime" destination="MZC-xY-Bib" id="2Eb-H3-JgL"/>
+                                    <outlet property="viewOfCircle" destination="ATh-Tq-AmJ" id="jkb-LY-rs7"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Yuw-7y-Ngb" id="oFR-yS-rDH"/>
+                            <outlet property="delegate" destination="Yuw-7y-Ngb" id="TS2-2x-Lx7"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Z3E-NW-v6a" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1182" y="-493"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="mpf-rC-cam">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="2BL-Zw-uk4" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="lRB-by-zWF">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="eiD-au-ofc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZLH-dr-3DD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2900" y="-1415"/>
+        </scene>
+    </scenes>
+</document>
