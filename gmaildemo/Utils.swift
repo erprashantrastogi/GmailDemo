@@ -22,8 +22,18 @@ class Utils: NSObject {
         alert.show()
     }
     
-    class func getDateStr(gmailDate:NSString) -> String
+    class func getDateStr(gmailDate:Int) -> String
     {
+        let dateObj = NSDate(timeIntervalSince1970: NSTimeInterval(gmailDate));
+        
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        dateFormatter.AMSymbol = "AM"
+        dateFormatter.PMSymbol = "PM"
+        
+        let newDateStr = dateFormatter.stringFromDate(dateObj);
+        return newDateStr;
+        /*
         let newDate = gmailDate.substringToIndex(25);
         
         let dateFormatter = NSDateFormatter()
@@ -41,5 +51,6 @@ class Utils: NSObject {
         }
         
         return newDateStr;
+        */
     }
 }

@@ -17,7 +17,9 @@ class EmailListVC: UITableViewController
     var labelObj:GTLGmailLabel! ;
     
     var arrayOfMessage:[GTLGmailMessage] = [];
+    var pageNumber = 0;
     
+    var msgFetchCount:NSNumber = NSNumber(integer: 0);
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,14 +28,19 @@ class EmailListVC: UITableViewController
 
     func getEmails()  {
         
+        msgFetchCount = 0;
+        
+        pageNumber++;
+        
         let query = GTLQueryGmail.queryForUsersMessagesList()
         
+        query.pageToken = String(pageNumber);
         query.maxResults = 5;
         query.labelIds = [labelObj.identifier];
         
         service.executeQuery(query)
         {
-            [weak self]
+            //[weak self]
             (ticket, labelsResponse, error) in
             
             if let error = error {
@@ -48,7 +55,10 @@ class EmailListVC: UITableViewController
                 let getMsgQuery = GTLQueryGmail.queryForUsersMessagesGet()
                 getMsgQuery.identifier = msg.threadId;
                 
-                self?.service.executeQuery(getMsgQuery, completionHandler: { (ticket, messgae, error) in
+                self.service.executeQuery(getMsgQuery, completionHandler: {
+                    
+                    //[weak self]
+                    (ticket, messgae, error) in
                     
                     if let error = error {
                         Utils.showAlert("Error", message: error.localizedDescription)
@@ -56,9 +66,15 @@ class EmailListVC: UITableViewController
                     }
                     
                     let msg = messgae as! GTLGmailMessage;
-                    self?.arrayOfMessage.append(msg);
+                    self.arrayOfMessage.append(msg);
                     
-                    self?.reloadTable();
+                    if( self.msgFetchCount == 4)
+                    {
+                        self.reloadTable();
+                        self.msgFetchCount = 0;
+                    }
+                    self.msgFetchCount = NSNumber(integer: self.msgFetchCount.integerValue + 1);
+                    
                     /*
                     let payLoad:GTLGmailMessagePart = msg.payload;
                     
@@ -98,6 +114,11 @@ class EmailListVC: UITableViewController
     
     func reloadTable()
     {
+        let sortedArray = ((self.arrayOfMessage) as NSArray).sortedArrayUsingDescriptors([
+            NSSortDescriptor(key: "internalDate", ascending: false)
+            ]) as! [GTLGmailMessage]
+        
+        self.arrayOfMessage = sortedArray;
         let tblView = self.view as! UITableView;
         tblView.reloadData();
     }
@@ -111,17 +132,36 @@ class EmailListVC: UITableViewController
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        let noOfRows:Int = arrayOfMessage.count;
+        var noOfRows:Int = 0;
+        
+        if( arrayOfMessage.count > 0)
+        {
+            noOfRows = arrayOfMessage.count + 1;
+        }
+        
         return noOfRows;
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
+        if indexPath.row == arrayOfMessage.count && pageNumber != 0
+        {
+            // Need to show Pagination Loader
+            var defaultCell = tableView.dequeueReusableCellWithIdentifier("MoreCell") ;
+            if( defaultCell == nil)
+            {
+                defaultCell = UITableViewCell(style: .Default, reuseIdentifier: "MoreCell");
+            }
+            defaultCell?.textLabel?.text = "Loading More Data";
+            
+            getEmails();
+            return defaultCell!;
+        }
         let emailListCell = tableView.dequeueReusableCellWithIdentifier("EmailListCell", forIndexPath: indexPath) as! EmailListCell;
 
         // Configure the cell...
-        let msg:GTLGmailMessage = self.arrayOfMessage[indexPath.row];
+        let msg:GTLGmailMessage = self.arrayOfMessage[indexPath.row ];
         emailListCell.prepareCell(withMsg: msg);
         
         return emailListCell

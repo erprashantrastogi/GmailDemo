@@ -17,7 +17,7 @@ class HomeVC: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     // If modifying these scopes, delete your previously saved credentials by
     // resetting the iOS simulator or uninstall the app.
-    private let scopes = [kGTLAuthScopeGmailReadonly,kGTLAuthScopeGmailModify]
+    private let scopes = [kGTLAuthScopeGmailReadonly,kGTLAuthScopeGmailModify,kGTLAuthScopeGmail]
     
     var arrayOfServiceAccounts:[GTLServiceGmail] = [];
     private var service:GTLServiceGmail = GTLServiceGmail() ;

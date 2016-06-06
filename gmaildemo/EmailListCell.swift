@@ -32,6 +32,7 @@ class EmailListCell: UITableViewCell {
     
     func prepareCell(withMsg messageObj:GTLGmailMessage)
     {
+        let snippet = messageObj.snippet;
         let payLoad:GTLGmailMessagePart = messageObj.payload;
         let headers:[GTLGmailMessagePartHeader] = payLoad.headers as! [GTLGmailMessagePartHeader];
         
@@ -49,10 +50,10 @@ class EmailListCell: UITableViewCell {
             }
             if(header.name == "Date")
             {
-                lblTime.text = Utils.getDateStr(header.value);
+                lblTime.text = Utils.getDateStr(messageObj.internalDate.integerValue);
             }
         }
-        
+        lblMsgDesc.text = snippet;
         viewOfCircle.layer.cornerRadius = 10.0;
     }
 
