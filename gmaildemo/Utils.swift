@@ -36,7 +36,15 @@ class Utils: NSObject {
         return newDateStr;
         */
         
-        let newDate = gmailDate.substringToIndex(30);
+        let newDate:String;
+        if( gmailDate.length > 29 )
+        {
+            newDate = gmailDate.substringToIndex(30);
+        }
+        else
+        {
+            newDate = gmailDate.substringToIndex(25);
+        }
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss ZZZ"

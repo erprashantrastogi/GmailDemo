@@ -37,7 +37,7 @@ class EmailListVC: UITableViewController
             query.pageToken = nextPageToken;
         }
         
-        query.maxResults = 5;
+        query.maxResults = 10;
         query.labelIds = [labelObj.identifier];
         
         service.executeQuery(query)
@@ -50,10 +50,15 @@ class EmailListVC: UITableViewController
                 return
             }
             
+            let resultSize = labelsResponse.resultSizeEstimate as NSNumber;
+            
+            if( resultSize == 0)
+            {
+                return;
+            }
             let arrayOfMessages = labelsResponse.messages as! [GTLGmailMessage]
             
-            let resultSize = labelsResponse.resultSizeEstimate as! NSNumber;
-            if(resultSize.integerValue  > 4)
+            if(resultSize.integerValue  > 9)
             {
                 self.nextPageToken = labelsResponse.nextPageToken;
             }
@@ -86,38 +91,7 @@ class EmailListVC: UITableViewController
                     }
                     self.msgFetchCount = NSNumber(integer: self.msgFetchCount.integerValue + 1);
                     
-                    /*
-                    let payLoad:GTLGmailMessagePart = msg.payload;
-                    
-                    let headers:[GTLGmailMessagePartHeader] = payLoad.headers as! [GTLGmailMessagePartHeader];
-                    
-                    for header in headers
-                    {
-                        if( header.name == "From" || header.name == "Subject" || header.name == "Date")
-                        {
-                            print(header.name + " : " + header.value )
-                        }
-                    }
-                    
-                    print("\n============================\n");*/
-                    /*
-                     let bodyObj:GTLGmailMessagePartBody = payLoad.body;
-                     
-                     let bodyData : String? = bodyObj.data
-                     
-                     if bodyData != nil
-                     {
-                     
-                     let decodedData = GTLDecodeWebSafeBase64(bodyData)
-                     let decodedString = NSString(data: decodedData!, encoding: NSUTF8StringEncoding)
-                     
-                     print("after decoded: \(decodedString)")
-                     print("\n============================\n");
-                     }
-                     */
-                    
                 })
-                
             }
         }
         
@@ -163,6 +137,13 @@ class EmailListVC: UITableViewController
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
+        let hasNeedToFetchNext = arrayOfMessage.count - 5 == indexPath.row;
+        
+        if( hasNeedToFetchNext &&  nextPageToken != nil)
+        {
+            getEmails();
+        }
+        
         if indexPath.row == arrayOfMessage.count && nextPageToken != nil
         {
             // Need to show Pagination Loader
