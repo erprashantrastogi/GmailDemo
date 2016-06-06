@@ -17,7 +17,7 @@ class EmailListVC: UITableViewController
     var labelObj:GTLGmailLabel! ;
     
     var arrayOfMessage:[GTLGmailMessage] = [];
-    var pageNumber = 0;
+    var nextPageToken:String!;
     
     var msgFetchCount:NSNumber = NSNumber(integer: 0);
     override func viewDidLoad() {
@@ -30,11 +30,13 @@ class EmailListVC: UITableViewController
         
         msgFetchCount = 0;
         
-        pageNumber++;
-        
         let query = GTLQueryGmail.queryForUsersMessagesList()
         
-        query.pageToken = String(pageNumber);
+        if( nextPageToken != nil)
+        {
+            query.pageToken = nextPageToken;
+        }
+        
         query.maxResults = 5;
         query.labelIds = [labelObj.identifier];
         
@@ -50,6 +52,15 @@ class EmailListVC: UITableViewController
             
             let arrayOfMessages = labelsResponse.messages as! [GTLGmailMessage]
             
+            let resultSize = labelsResponse.resultSizeEstimate as! NSNumber;
+            if(resultSize.integerValue  > 4)
+            {
+                self.nextPageToken = labelsResponse.nextPageToken;
+            }
+            else
+            {
+                self.nextPageToken = nil
+            }
             for msg:GTLGmailMessage in arrayOfMessages
             {
                 let getMsgQuery = GTLQueryGmail.queryForUsersMessagesGet()
@@ -136,7 +147,14 @@ class EmailListVC: UITableViewController
         
         if( arrayOfMessage.count > 0)
         {
-            noOfRows = arrayOfMessage.count + 1;
+            if(self.nextPageToken != nil)
+            {
+                noOfRows = arrayOfMessage.count + 1;
+            }
+            else
+            {
+                noOfRows = arrayOfMessage.count
+            }
         }
         
         return noOfRows;
@@ -145,7 +163,7 @@ class EmailListVC: UITableViewController
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if indexPath.row == arrayOfMessage.count && pageNumber != 0
+        if indexPath.row == arrayOfMessage.count && nextPageToken != nil
         {
             // Need to show Pagination Loader
             var defaultCell = tableView.dequeueReusableCellWithIdentifier("MoreCell") ;

@@ -22,8 +22,9 @@ class Utils: NSObject {
         alert.show()
     }
     
-    class func getDateStr(gmailDate:Int) -> String
+    class func getDateStr(gmailDate:NSString) -> NSString
     {
+        /*
         let dateObj = NSDate(timeIntervalSince1970: NSTimeInterval(gmailDate));
         
         let dateFormatter = NSDateFormatter()
@@ -33,17 +34,32 @@ class Utils: NSObject {
         
         let newDateStr = dateFormatter.stringFromDate(dateObj);
         return newDateStr;
-        /*
-        let newDate = gmailDate.substringToIndex(25);
+        */
+        
+        let newDate = gmailDate.substringToIndex(30);
         
         let dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss"
+        dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss ZZZ"
         let dateObj =  dateFormatter.dateFromString( newDate ) ;
         
         var newDateStr = "";
         if( dateObj != nil)
         {
-            dateFormatter.dateFormat = "hh:mm a"
+            let today:NSDate = NSDate()
+            let order = NSCalendar.currentCalendar().compareDate(today, toDate: dateObj!,
+                                                                 toUnitGranularity: .Day)
+            
+            switch order
+            {
+            case .OrderedDescending,.OrderedAscending:
+                dateFormatter.dateFormat = "dd MMM"
+                break
+            case .OrderedSame:
+                
+                dateFormatter.dateFormat = "hh:mm a"
+            }
+            
+            //dateFormatter.dateFormat = "hh:mm a"
             dateFormatter.AMSymbol = "AM"
             dateFormatter.PMSymbol = "PM"
             
@@ -51,6 +67,5 @@ class Utils: NSObject {
         }
         
         return newDateStr;
-        */
     }
 }

@@ -40,9 +40,15 @@ class EmailListCell: UITableViewCell {
         {
             if( header.name == "From" )
             {
-                let rangeObj = header.value.rangeOfString("<");
-                
-                lblSender.text = header.value.substringToIndex((rangeObj?.startIndex)!)
+                if( header.value != nil )
+                {
+                    let rangeObj = header.value.rangeOfString("<");
+                    if( rangeObj != nil)
+                    {
+                        lblSender.text = header.value.substringToIndex((rangeObj?.startIndex)!)
+                        
+                    }
+                }
             }
             if(header.name == "Subject")
             {
@@ -50,8 +56,10 @@ class EmailListCell: UITableViewCell {
             }
             if(header.name == "Date")
             {
-                lblTime.text = Utils.getDateStr(messageObj.internalDate.integerValue);
+                lblTime.text = Utils.getDateStr(header.value) as String;
             }
+            
+            print( header.name + " : " + header.value);
         }
         lblMsgDesc.text = snippet;
         viewOfCircle.layer.cornerRadius = 10.0;
