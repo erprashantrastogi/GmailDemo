@@ -25,14 +25,14 @@ class EmailListVC: UITableViewController
         super.viewDidLoad()
 
         let btnDelete = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: #selector(onTapDeleteBtn))
-        let btnMarkAsUnRead = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(onTapActionBtn))
+        let btnMarkAsArchieve = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(onTapArchieveBtn))
         
-        navigationItem.rightBarButtonItems = [btnMarkAsUnRead,btnDelete]
+        navigationItem.rightBarButtonItems = [btnMarkAsArchieve,btnDelete]
         
         getEmails();
     }
 
-    func onTapActionBtn()
+    func onTapArchieveBtn()
     {
         let query = GTLQueryGmail.queryForUsersMessagesModify()
         
@@ -41,7 +41,8 @@ class EmailListVC: UITableViewController
             query.identifier = messageId as! String;
         }
         
-        query.addLabelIds = ["UNREAD"]
+        query.addLabelIds = ["Archieve"]
+        query.removeLabelIds = ["INBOX"]
         service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
             print("ticket \(ticket)")
             print("response \(response)")

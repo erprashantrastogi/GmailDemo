@@ -32,6 +32,17 @@ class EmailListCell: UITableViewCell {
     
     func prepareCell(withMsg messageObj:GTLGmailMessage)
     {
+        var  hasMsgUnRead = false
+        
+        for labelId in messageObj.labelIds {
+            if labelId as! String == "UNREAD"
+            {
+                hasMsgUnRead = true;
+            }
+        }
+        
+        viewOfCircle.hidden = !hasMsgUnRead;
+        
         let snippet = messageObj.snippet;
         let payLoad:GTLGmailMessagePart = messageObj.payload;
         let headers:[GTLGmailMessagePartHeader] = payLoad.headers as! [GTLGmailMessagePartHeader];
