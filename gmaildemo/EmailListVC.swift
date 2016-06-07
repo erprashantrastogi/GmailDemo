@@ -25,12 +25,29 @@ class EmailListVC: UITableViewController
         super.viewDidLoad()
 
         let btnDelete = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: #selector(onTapDeleteBtn))
+        let btnMarkAsUnRead = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(onTapActionBtn))
         
-        navigationItem.rightBarButtonItems = [btnDelete]
+        navigationItem.rightBarButtonItems = [btnMarkAsUnRead,btnDelete]
         
         getEmails();
     }
 
+    func onTapActionBtn()
+    {
+        let query = GTLQueryGmail.queryForUsersMessagesModify()
+        
+        for messageId in arrayOfSelectedMsg
+        {
+            query.identifier = messageId as! String;
+        }
+        
+        query.addLabelIds = ["UNREAD"]
+        service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
+            print("ticket \(ticket)")
+            print("response \(response)")
+            print("error \(error)")
+        })
+    }
     func onTapDeleteBtn()
     {
         for messageId in arrayOfSelectedMsg
