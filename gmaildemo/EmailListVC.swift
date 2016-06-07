@@ -19,13 +19,44 @@ class EmailListVC: UITableViewController
     var arrayOfMessage:[GTLGmailMessage] = [];
     var nextPageToken:String!;
     
+    var arrayOfSelectedMsg:NSMutableSet = [];
     var msgFetchCount:NSNumber = NSNumber(integer: 0);
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let btnDelete = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: #selector(onTapDeleteBtn))
+        
+        navigationItem.rightBarButtonItems = [btnDelete]
+        
         getEmails();
     }
 
+    func onTapDeleteBtn()
+    {
+        for messageId in arrayOfSelectedMsg
+        {
+            print("MEssage ID = \(messageId)");
+        }
+        
+        let query = GTLQueryGmail.queryForUsersMessagesBatchDelete()
+        query.ids = arrayOfSelectedMsg.allObjects;
+        
+        service.executeQuery(query) { (ticket, responseObj, errorObj) in
+            
+            if let error = errorObj {
+                Utils.showAlert("Error", message: error.localizedDescription)
+                return
+            }
+            
+            Utils.showAlert("Deletes Messages", message: "Selected messages deleted.")
+            
+            self.nextPageToken = nil;
+            self.arrayOfSelectedMsg = []
+            self.arrayOfMessage = []
+            self.getEmails();
+        }
+        
+    }
     func getEmails()  {
         
         msgFetchCount = 0;
@@ -137,7 +168,7 @@ class EmailListVC: UITableViewController
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let hasNeedToFetchNext = arrayOfMessage.count - 5 == indexPath.row;
+        let hasNeedToFetchNext = arrayOfMessage.count - 5 == indexPath.row && indexPath.row > 0;
         
         if( hasNeedToFetchNext &&  nextPageToken != nil)
         {
@@ -166,7 +197,50 @@ class EmailListVC: UITableViewController
         return emailListCell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        arrayOfSelectedMsg.addObject(arrayOfMessage[indexPath.row].identifier)
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        arrayOfSelectedMsg.removeObject(arrayOfMessage[indexPath.row].identifier)
+    }
 
+    // Override to support editing the table view.
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if editingStyle == .Delete
+        {
+            let gTLGmailMessage:GTLGmailMessage = arrayOfMessage[indexPath.row];
+            
+            let query = GTLQueryGmail.queryForUsersMessagesDelete()
+            query.identifier = gTLGmailMessage.identifier;
+            
+            service.executeQuery(query, completionHandler: { (ticker, responseObj, error) in
+                
+                if let error = error {
+                    Utils.showAlert("Error", message: error.localizedDescription)
+                    return
+                }
+                else
+                {
+                    Utils.showAlert("Deleter", message: "Message Deleted")
+                    self.arrayOfMessage.removeAtIndex(indexPath.row);
+                    
+                    // Delete the row from the data source
+                    //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    self.reloadTable();
+                }
+                
+            })
+        }
+        else if editingStyle == .Insert
+        {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        
+        }
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -176,15 +250,7 @@ class EmailListVC: UITableViewController
     */
 
     /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
+    
     */
 
     /*

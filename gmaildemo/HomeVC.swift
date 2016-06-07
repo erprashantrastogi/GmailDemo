@@ -3,6 +3,7 @@ import GTMOAuth2
 import UIKit
 import Alamofire
 import SwiftyJSON
+import CoreData
 
 class HomeVC: UIViewController,UITableViewDataSource,UITableViewDelegate
 {
@@ -195,6 +196,31 @@ class HomeVC: UIViewController,UITableViewDataSource,UITableViewDelegate
             }
         }
         
+    }
+    
+    // Override to support editing the table view.
+    internal func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if editingStyle == .Delete
+        {
+            let userEntity = arrayOfUsers[indexPath.row];
+            arrayOfUsers.removeAtIndex(indexPath.row);
+            
+            let appDelegate:AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate;
+            let context:NSManagedObjectContext = appDelegate.managedObjectContext;
+            
+            context.deleteObject(userEntity);
+            appDelegate.saveContext();
+            
+            // Delete the row from the data source
+            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
+            
+        }
+        else if editingStyle == .Insert
+        {
+            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
     }
     
 }
