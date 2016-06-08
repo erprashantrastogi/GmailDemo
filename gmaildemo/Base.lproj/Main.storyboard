@@ -136,6 +136,16 @@
                                                 <constraint firstAttribute="width" constant="15" id="vqB-gE-NZj"/>
                                             </constraints>
                                         </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="you-Vu-XnC">
+                                            <rect key="frame" x="3" y="65" width="20" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="20" id="ddg-I8-sIP"/>
+                                                <constraint firstAttribute="height" constant="20" id="jR7-M6-Qlz"/>
+                                            </constraints>
+                                            <connections>
+                                                <action selector="onTapReadUnreadBtn:" destination="h0c-kH-613" eventType="touchUpInside" id="Xgp-Ou-HJe"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="wav-Ig-X6f" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="2G2-9i-hfn"/>
@@ -145,18 +155,22 @@
                                         <constraint firstItem="ATh-Tq-AmJ" firstAttribute="leading" secondItem="RXs-49-fTl" secondAttribute="leading" constant="8" id="Dsw-Ue-nhX"/>
                                         <constraint firstAttribute="trailing" secondItem="wav-Ig-X6f" secondAttribute="trailing" constant="15" id="Ecl-eN-3YW"/>
                                         <constraint firstItem="SjJ-UK-lv6" firstAttribute="top" secondItem="NF1-XZ-2Fr" secondAttribute="bottom" constant="6" id="FQ9-ir-2KY"/>
+                                        <constraint firstItem="SjJ-UK-lv6" firstAttribute="leading" secondItem="you-Vu-XnC" secondAttribute="trailing" constant="13" id="IP1-Xa-Eox"/>
                                         <constraint firstAttribute="trailing" secondItem="SjJ-UK-lv6" secondAttribute="trailing" constant="8" id="IXU-YB-vMs"/>
                                         <constraint firstItem="zDu-8g-1jk" firstAttribute="leading" secondItem="ATh-Tq-AmJ" secondAttribute="trailing" constant="8" id="OGm-rn-l1G"/>
                                         <constraint firstItem="wav-Ig-X6f" firstAttribute="leading" secondItem="MZC-xY-Bib" secondAttribute="trailing" constant="8" id="OLk-M7-B6H"/>
                                         <constraint firstItem="NF1-XZ-2Fr" firstAttribute="top" secondItem="zDu-8g-1jk" secondAttribute="bottom" constant="3" id="Q8g-ow-DrZ"/>
                                         <constraint firstAttribute="trailing" secondItem="NF1-XZ-2Fr" secondAttribute="trailing" constant="8" id="Wjf-Ya-gLz"/>
+                                        <constraint firstItem="you-Vu-XnC" firstAttribute="leading" secondItem="RXs-49-fTl" secondAttribute="leading" constant="3" id="icj-8c-oEP"/>
                                         <constraint firstItem="MZC-xY-Bib" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="nca-Re-hbq"/>
                                         <constraint firstItem="zDu-8g-1jk" firstAttribute="top" secondItem="RXs-49-fTl" secondAttribute="top" constant="8" id="pjQ-fl-b8c"/>
+                                        <constraint firstItem="you-Vu-XnC" firstAttribute="centerY" secondItem="RXs-49-fTl" secondAttribute="centerY" id="w1V-DB-wHd"/>
                                         <constraint firstAttribute="bottom" secondItem="SjJ-UK-lv6" secondAttribute="bottom" constant="8" id="wcD-UE-K9n"/>
                                         <constraint firstItem="SjJ-UK-lv6" firstAttribute="leading" secondItem="zDu-8g-1jk" secondAttribute="leading" id="xyh-0c-8cm"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="btnRead" destination="you-Vu-XnC" id="6D5-lH-yfE"/>
                                     <outlet property="lblMsgDesc" destination="SjJ-UK-lv6" id="2UU-go-4d3"/>
                                     <outlet property="lblSender" destination="zDu-8g-1jk" id="Qvw-vF-soj"/>
                                     <outlet property="lblSubject" destination="NF1-XZ-2Fr" id="IUl-TY-nFC"/>

@@ -8,6 +8,7 @@
 
 import UIKit
 import GoogleAPIClient
+import SSToastView
 
 class EmailListCell: UITableViewCell {
 
@@ -15,7 +16,12 @@ class EmailListCell: UITableViewCell {
     @IBOutlet weak var lblSender: UILabel!
     @IBOutlet weak var lblSubject: UILabel!
     @IBOutlet weak var lblMsgDesc: UILabel!
+    @IBOutlet weak var btnRead: UIButton!
     @IBOutlet weak var lblTime: UILabel!
+    
+    var messageObj:GTLGmailMessage!
+    var service:GTLServiceGmail!  ;
+    var tblEmailListVC:EmailListVC!
     
     override func awakeFromNib()
     {
@@ -30,8 +36,9 @@ class EmailListCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func prepareCell(withMsg messageObj:GTLGmailMessage)
+    func prepareCell(withMsg message:GTLGmailMessage)
     {
+        messageObj = message;
         var  hasMsgUnRead = false
         
         for labelId in messageObj.labelIds {
@@ -42,6 +49,11 @@ class EmailListCell: UITableViewCell {
         }
         
         viewOfCircle.hidden = !hasMsgUnRead;
+        
+        let imageName = hasMsgUnRead ? "unread" : "read";
+        let imgObj = UIImage(named: imageName)
+        
+        btnRead.setBackgroundImage(imgObj, forState: UIControlState.Normal)
         
         let snippet = messageObj.snippet;
         let payLoad:GTLGmailMessagePart = messageObj.payload;
@@ -75,5 +87,54 @@ class EmailListCell: UITableViewCell {
         lblMsgDesc.text = snippet;
         viewOfCircle.layer.cornerRadius = 10.0;
     }
+    
+    @IBAction func onTapReadUnreadBtn(sender: UIButton) {
+        
+        var  hasMsgUnRead = false
+        
+        for labelId in messageObj.labelIds {
+            if labelId as! String == "UNREAD"
+            {
+                hasMsgUnRead = true;
+            }
+        }
+        
+        if( hasMsgUnRead )
+        {
+            // Mark Msg as Read
+            let query = GTLQueryGmail.queryForUsersMessagesModify()
+            query.identifier = messageObj.identifier;
+            
+            query.removeLabelIds = ["UNREAD"]
+            service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
+                
+                if let error = error {
+                    Utils.showAlert("Error", message: error.localizedDescription)
+                    return
+                }
+                self.tblEmailListVC.readStatusChanged();
+                SSToastView.show("Message mark as read.");
+            })
+        }
+        else
+        {
+            // Mark Msg as UnRead
+            let query = GTLQueryGmail.queryForUsersMessagesModify()
+            query.identifier = messageObj.identifier;
+            
+            query.addLabelIds = ["UNREAD"]
+            service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
+                
+                if let error = error {
+                    Utils.showAlert("Error", message: error.localizedDescription)
+                    return
+                }
+                self.tblEmailListVC.readStatusChanged();
+                SSToastView.show("Message mark as unread.");
+            })
+        }
+        
+    }
+    
 
 }

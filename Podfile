@@ -5,7 +5,8 @@ target ‘gmaildemo’ do
 
 pod 'GoogleAPIClient/Gmail', '~> 1.0.2'
 pod 'GTMOAuth2', '~> 1.1.0'
-pod 'Alamofire', '~> 3.1.0'
-pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
-
+pod 'SSToastView'
+#pod 'Alamofire', '~> 3.1.0'
+#pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+#pod 'Toast', '~> 3.0'
 end

@@ -75,6 +75,8 @@ class EmailListVC: UITableViewController
         }
         
     }
+    
+    
     func getEmails()  {
         
         msgFetchCount = 0;
@@ -146,6 +148,14 @@ class EmailListVC: UITableViewController
         
     }
     
+    func readStatusChanged()
+    {
+        self.nextPageToken = nil;
+        self.arrayOfSelectedMsg = []
+        self.arrayOfMessage = []
+        self.getEmails();
+    }
+    
     func reloadTable()
     {
         let sortedArray = ((self.arrayOfMessage) as NSArray).sortedArrayUsingDescriptors([
@@ -210,6 +220,9 @@ class EmailListVC: UITableViewController
 
         // Configure the cell...
         let msg:GTLGmailMessage = self.arrayOfMessage[indexPath.row ];
+        
+        emailListCell.service = service
+        emailListCell.tblEmailListVC = self;
         emailListCell.prepareCell(withMsg: msg);
         
         return emailListCell

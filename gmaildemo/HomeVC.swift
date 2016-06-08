@@ -1,8 +1,6 @@
 import GoogleAPIClient
 import GTMOAuth2
 import UIKit
-import Alamofire
-import SwiftyJSON
 import CoreData
 
 class HomeVC: UIViewController,UITableViewDataSource,UITableViewDelegate
