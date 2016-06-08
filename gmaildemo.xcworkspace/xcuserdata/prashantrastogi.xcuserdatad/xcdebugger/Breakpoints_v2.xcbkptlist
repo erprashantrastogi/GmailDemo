@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "gmaildemo/EmailListVC.swift"
-            timestampString = "487064674.674057"
+            timestampString = "487065840.941728"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "getEmails()"
             landmarkType = "5">
          </BreakpointContent>

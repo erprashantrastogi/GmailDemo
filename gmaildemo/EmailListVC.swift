@@ -9,6 +9,7 @@
 import GoogleAPIClient
 import GTMOAuth2
 import UIKit
+import SSToastView
 
 class EmailListVC: UITableViewController
 {
@@ -48,6 +49,12 @@ class EmailListVC: UITableViewController
 
     func onTapArchieveBtn()
     {
+        if arrayOfSelectedMsg.count == 0
+        {
+            SSToastView.show("Please select at least one message")
+            return
+        }
+        
         let query = GTLQueryGmail.queryForUsersMessagesModify()
         
         for messageId in arrayOfSelectedMsg
@@ -55,16 +62,32 @@ class EmailListVC: UITableViewController
             query.identifier = messageId as! String;
         }
         
-        query.addLabelIds = ["Archieve"]
         query.removeLabelIds = ["INBOX"]
+        
         service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
-            print("ticket \(ticket)")
-            print("response \(response)")
-            print("error \(error)")
+            
+            if let error = error {
+                Utils.showAlert("Error", message: error.localizedDescription)
+                return
+            }
+            
+            SSToastView.show("Selected messages move to archieve.")
+            
+            self.nextPageToken = nil;
+            self.arrayOfSelectedMsg = []
+            self.arrayOfMessage = []
+            self.getEmails();
+            
         })
     }
     func onTapDeleteBtn()
     {
+        if arrayOfSelectedMsg.count == 0
+        {
+            SSToastView.show("Please select at least one message")
+            return
+        }
+        
         for messageId in arrayOfSelectedMsg
         {
             print("MEssage ID = \(messageId)");
@@ -80,7 +103,7 @@ class EmailListVC: UITableViewController
                 return
             }
             
-            Utils.showAlert("Deletes Messages", message: "Selected messages deleted.")
+            SSToastView.show("Selected messages deleted.")
             
             self.nextPageToken = nil;
             self.arrayOfSelectedMsg = []
