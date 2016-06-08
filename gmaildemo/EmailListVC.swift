@@ -125,7 +125,7 @@ class EmailListVC: UITableViewController
             query.pageToken = nextPageToken;
         }
         
-        query.maxResults = 10;
+        query.maxResults = 100;
         query.labelIds = [labelObj.identifier];
         
         service.executeQuery(query)
@@ -233,7 +233,7 @@ class EmailListVC: UITableViewController
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let hasNeedToFetchNext = arrayOfMessage.count - 5 == indexPath.row && indexPath.row > 0;
+        let hasNeedToFetchNext = arrayOfMessage.count - 50 == indexPath.row && indexPath.row > 0;
         
         if( hasNeedToFetchNext &&  nextPageToken != nil)
         {
