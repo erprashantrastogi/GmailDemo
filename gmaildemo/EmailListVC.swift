@@ -22,6 +22,23 @@ class EmailListVC: UITableViewController
     
     var arrayOfSelectedMsg:NSMutableSet = [];
     var msgFetchCount:NSNumber = NSNumber(integer: 0);
+    
+    func findMsgWithId(id:String) -> GTLGmailMessage?
+    {
+        var gTLGmailMessage:GTLGmailMessage?
+        
+        for msg:GTLGmailMessage in arrayOfMessage {
+            
+            if msg.identifier == id
+            {
+                gTLGmailMessage = msg
+                break
+            }
+        }
+        
+        return gTLGmailMessage
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,28 +74,34 @@ class EmailListVC: UITableViewController
         
         let query = GTLQueryGmail.queryForUsersMessagesModify()
         
+        var counter = 0
         for messageId in arrayOfSelectedMsg
         {
             query.identifier = messageId as! String;
+            
+            let msgObj = findMsgWithId(messageId as! String);
+            query.removeLabelIds = msgObj?.labelIds
+            
+            service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
+                
+                counter += 1;
+                
+                if let error = error {
+                    Utils.showAlert("Error", message: error.localizedDescription)
+                    return
+                }
+                
+                if( counter == self.arrayOfSelectedMsg.count)
+                {
+                    SSToastView.show("Selected messages move to archieve.")
+                    
+                    self.nextPageToken = nil;
+                    self.arrayOfSelectedMsg = []
+                    self.arrayOfMessage = []
+                    self.getEmails();
+                }
+            })
         }
-        
-        query.removeLabelIds = ["INBOX"]
-        
-        service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
-            
-            if let error = error {
-                Utils.showAlert("Error", message: error.localizedDescription)
-                return
-            }
-            
-            SSToastView.show("Selected messages move to archieve.")
-            
-            self.nextPageToken = nil;
-            self.arrayOfSelectedMsg = []
-            self.arrayOfMessage = []
-            self.getEmails();
-            
-        })
     }
     func onTapDeleteBtn()
     {
@@ -146,7 +169,7 @@ class EmailListVC: UITableViewController
             }
             let arrayOfMessages = labelsResponse.messages as! [GTLGmailMessage]
             
-            if(resultSize.integerValue  > 9)
+            if(resultSize.integerValue  > 99)
             {
                 self.nextPageToken = labelsResponse.nextPageToken;
             }
