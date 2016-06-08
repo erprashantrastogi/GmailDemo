@@ -85,6 +85,8 @@ class HomeVC: UIViewController,UITableViewDataSource,UITableViewDelegate
             
             self?.arrayOfServiceAccounts.append((self?.service)!);
             self?.dismissViewControllerAnimated(true, completion: nil)
+            
+            Utils.showProgressBar()
             self?.getUserProfile()
         }
     }
@@ -111,6 +113,8 @@ class HomeVC: UIViewController,UITableViewDataSource,UITableViewDelegate
             let user = DBManager.createUserWithKey(self.kKeychainItemName, andEmail: emailId!);
             self.arrayOfUsers.append(user);
             self.tblUserAccounts.reloadData();
+            
+            Utils.hideProgressBar()
         }
         
     }

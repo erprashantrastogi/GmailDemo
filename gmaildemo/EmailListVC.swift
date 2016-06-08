@@ -61,6 +61,7 @@ class EmailListVC: UITableViewController
         btnMarkAsArchieve.setBackgroundImage(UIImage(named: "archieve"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         navigationItem.rightBarButtonItems = [btnMarkAsArchieve,btnDelete]
         
+        Utils.showProgressBar();
         getEmails();
     }
 
@@ -75,12 +76,14 @@ class EmailListVC: UITableViewController
         let query = GTLQueryGmail.queryForUsersMessagesModify()
         
         var counter = 0
+        Utils.showProgressBar();
         for messageId in arrayOfSelectedMsg
         {
             query.identifier = messageId as! String;
             
             let msgObj = findMsgWithId(messageId as! String);
             query.removeLabelIds = msgObj?.labelIds
+            
             
             service.executeQuery(query, completionHandler: { (ticket, response, error) -> Void in
                 
@@ -111,11 +114,7 @@ class EmailListVC: UITableViewController
             return
         }
         
-        for messageId in arrayOfSelectedMsg
-        {
-            print("MEssage ID = \(messageId)");
-        }
-        
+        Utils.showProgressBar();
         let query = GTLQueryGmail.queryForUsersMessagesBatchDelete()
         query.ids = arrayOfSelectedMsg.allObjects;
         
@@ -157,6 +156,7 @@ class EmailListVC: UITableViewController
             (ticket, labelsResponse, error) in
             
             if let error = error {
+                
                 Utils.showAlert("Error", message: error.localizedDescription)
                 return
             }
@@ -165,6 +165,7 @@ class EmailListVC: UITableViewController
             
             if( resultSize == 0)
             {
+                Utils.hideProgressBar()
                 return;
             }
             let arrayOfMessages = labelsResponse.messages as! [GTLGmailMessage]
@@ -195,13 +196,19 @@ class EmailListVC: UITableViewController
                     let msg = messgae as! GTLGmailMessage;
                     self.arrayOfMessage.append(msg);
                     
-                    if( self.msgFetchCount == 4)
+                    if( self.msgFetchCount.integerValue >= arrayOfMessages.count - 1)
                     {
                         self.reloadTable();
                         self.msgFetchCount = 0;
+                         Utils.hideProgressBar()
                     }
                     self.msgFetchCount = NSNumber(integer: self.msgFetchCount.integerValue + 1);
-                    
+                    if( self.msgFetchCount.integerValue >= arrayOfMessages.count - 1)
+                    {
+                        self.reloadTable();
+                        self.msgFetchCount = 0;
+                        Utils.hideProgressBar()
+                    }
                 })
             }
         }

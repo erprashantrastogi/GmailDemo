@@ -7,12 +7,31 @@
 //
 
 import UIKit
+import MBProgressHUD
 
 class Utils: NSObject {
 
+    class func showProgressBar()  {
+        
+        let window = UIApplication.sharedApplication().delegate?.window!
+        MBProgressHUD.showHUDAddedTo(window, animated: true)
+    }
+    
+    class func hideProgressBar()  {
+        
+        dispatch_async(dispatch_get_main_queue()) { 
+            
+            let window = UIApplication.sharedApplication().delegate?.window!
+            MBProgressHUD.hideHUDForView(window, animated: true)
+            
+        }
+        
+    }
+    
     // Helper for showing an alert
     class func showAlert(title : String, message: String )
     {
+         Utils.hideProgressBar();
         let alert = UIAlertView(
             title: title,
             message: message,

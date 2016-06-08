@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-gmaildemo.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,7 +37,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0F5003D1C25384C7DABE06B58106DF53</key>
+		<key>472A683A3BDC34A01971026A54A713AC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,17 +47,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>7EC3EDFCD7F0D41FDA9127FBD546861B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>7F0F5E126ECC26AAD9D61BE30DB801D8</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C8CD416BB5F5B304414B3C6109718B43</key>
+		<key>D468777BEC2DE5127A16239373FFD11F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D468777BEC2DE5127A16239373FFD11F</key>
+		<key>E61CE3B6DFA1FE6B3E296965C76C0E10</key>
 		<dict>
 			<key>primary</key>
 			<true/>

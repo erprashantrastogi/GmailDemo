@@ -22,6 +22,7 @@ class AccountLabelVC: UITableViewController {
         
         super.viewDidLoad();
         
+        Utils.showProgressBar()
         fetchAllLabels();
     }
     
@@ -49,6 +50,8 @@ class AccountLabelVC: UITableViewController {
             
             self?.arrayOfLabels = sortedArray
             self?.reloadTable();
+            
+            Utils.hideProgressBar()
         }
         
     }
