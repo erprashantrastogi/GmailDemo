@@ -25,8 +25,22 @@ class EmailListVC: UITableViewController
         super.viewDidLoad()
 
         let btnDelete = UIBarButtonItem(barButtonSystemItem: .Trash, target: self, action: #selector(onTapDeleteBtn))
-        let btnMarkAsArchieve = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(onTapArchieveBtn))
         
+        let imageObj = UIImage(named: "archieve");
+        
+        let button = UIButton(type: .Custom);
+        button.setBackgroundImage(imageObj?.stretchableImageWithLeftCapWidth(7, topCapHeight: 0), forState: UIControlState.Normal)
+        button.setBackgroundImage(imageObj, forState: .Normal);
+        
+        button.frame = CGRectMake(0.0, 0.0, 30.0, 30.0);
+        
+        button.addTarget(self, action: #selector(EmailListVC.onTapArchieveBtn), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        let customView = UIView(frame:  button.frame );
+        customView.addSubview(button);
+        
+        let btnMarkAsArchieve = UIBarButtonItem(customView: customView);
+        btnMarkAsArchieve.setBackgroundImage(UIImage(named: "archieve"), forState: UIControlState.Normal, barMetrics: UIBarMetrics.Default)
         navigationItem.rightBarButtonItems = [btnMarkAsArchieve,btnDelete]
         
         getEmails();
